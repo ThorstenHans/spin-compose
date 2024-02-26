@@ -1,0 +1,6 @@
+package fermyon:samples;
+
+/// An example world for the component to target.
+world middlewares {
+    import fermyon:components/obfuscate;
+}

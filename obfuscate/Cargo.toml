@@ -1,0 +1,17 @@
+[package]
+name = "obfuscate"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+wit-bindgen = { git = "https://github.com/bytecodealliance/wit-bindgen", rev = "3518b5e2f08e4028b7f0cf0ed386e03423a3cd1b" }
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.component]
+package = "fermyon:components"
+
+[package.metadata.component.target.dependencies]

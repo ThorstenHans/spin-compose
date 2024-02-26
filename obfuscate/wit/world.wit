@@ -1,0 +1,17 @@
+package fermyon:components;
+
+world obfuscator {
+    export obfuscate;
+}
+
+interface types {
+    type error = string;
+}
+interface obfuscate {
+    use types.{error};
+
+    obfuscate: func(payload: list<u8>) -> result<list<u8>, error>;
+}
+
+
+

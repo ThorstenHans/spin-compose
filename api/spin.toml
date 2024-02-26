@@ -1,0 +1,20 @@
+spin_manifest_version = 2
+
+[application]
+name = "api"
+version = "0.1.0"
+authors = ["Thorsten Hans <thorsten.hans@fermyon.com>"]
+description = ""
+
+[[trigger.http]]
+route = "/..."
+component = "api"
+
+[component.api]
+source = "composed.wasm"
+allowed_outbound_hosts = []
+
+[component.api.build]
+# && wasm-tools compose target/wasm32-wasi/release/foo.wasm -d ../obfuscate/target/wasm32-wasi/release/obfuscate.wasm -o service.wasm
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]
