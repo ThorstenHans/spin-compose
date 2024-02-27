@@ -68,7 +68,13 @@ fn handle_webhook_invocation(req: &Request, _: Params) -> anyhow::Result<Respons
     let tag = req.header("X-Signature").unwrap().as_bytes();
     //let tag = HEXUPPER.decode(tag.as_bytes())?;
     match verify(body, key_data.as_bytes(), tag) {
-        true => Ok(Response::builder().status(200).body(()).build()),
-        false => Ok(Response::builder().status(500).body(()).build()),
+        true => {
+            println!("Payload signature is VALID.");
+            Ok(Response::builder().status(200).body(()).build())
+        }
+        false => {
+            println!("Payload signature is INVALID.");
+            Ok(Response::builder().status(500).body(()).build())
+        }
     }
 }

@@ -27,6 +27,10 @@ Use the [build.sh](./build.sh) script to compile and compose all necessary Wasm 
 - In a dedicated terminal instance invoke `cd api && spin up --sqlite @migration.sql`
 - In a dedicated terminal instance invoke `cd consumer && spin up --listen 127.0.0.1:3001 --sqlite @migration.sql`
 
+## Using the sample with `tests.restbook`
+
+You can use [`tests.restbook`](./tests.restbook) for using the sample. To do so, install the [`tanhakabir.rest-book`] extension first, and follow the instructions mentioned in the notebook.
+
 ## Using the sample
 
 Register the webhook consumer as shown here:
