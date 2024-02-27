@@ -12,9 +12,9 @@ component = "api"
 
 [component.api]
 source = "composed.wasm"
-allowed_outbound_hosts = []
+sqlite_databases = ["default"]
+allowed_outbound_hosts = ["http://localhost:3001"]
 
 [component.api.build]
-# && wasm-tools compose target/wasm32-wasi/release/foo.wasm -d ../obfuscate/target/wasm32-wasi/release/obfuscate.wasm -o service.wasm
-command = "cargo build --target wasm32-wasi --release"
+command = "cargo component build  --release"
 watch = ["src/**/*.rs", "Cargo.toml"]
