@@ -29,7 +29,7 @@ Use the [build.sh](./build.sh) script to compile and compose all necessary Wasm 
 
 ## Using the sample with `tests.restbook`
 
-You can use [`tests.restbook`](./tests.restbook) for using the sample. To do so, install the [`tanhakabir.rest-book`] extension first, and follow the instructions mentioned in the notebook.
+You can use [`tests.restbook`](./tests.restbook) for using the sample. To do so, install the `tanhakabir.rest-book` extension first, and follow the instructions mentioned in the notebook.
 
 ## Using the sample
 
