@@ -20,7 +20,7 @@ wit-bindgen = "0.19.1"
 [workspace]
 
 [package.metadata.component]
-package = "fermyon:webhooks-producer@0.1.0"
+package = "fermyon:webhooks-producer"
 
 [package.metadata.component.target.dependencies]
 "fermyon:hmac" = { path = "../hmac/wit" }

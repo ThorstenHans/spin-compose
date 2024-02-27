@@ -13,6 +13,7 @@ component = "consumer"
 [component.consumer]
 source = "composed.wasm"
 allowed_outbound_hosts = []
+sqlite_databases = ["default"]
 [component.consumer.build]
 command = "cargo component build --release"
 watch = ["src/**/*.rs", "Cargo.toml"]

@@ -2,9 +2,15 @@ use anyhow::bail;
 use rand::{distributions::Alphanumeric, Rng};
 use serde::{Deserialize, Serialize};
 use spin_sdk::{
-    http::{IntoResponse, Params, Request, Response},
+    http::{self, IntoResponse, Params, Request, Response},
     sqlite::{Connection, Value},
 };
+
+#[derive(Debug, Serialize)]
+pub struct VerificationPayload {
+    #[serde(rename = "keyData")]
+    key_data: String,
+}
 
 #[derive(Debug, Deserialize)]
 pub struct RegistrationRequestModel {
@@ -61,7 +67,7 @@ pub fn dump_registrations(_: Request, _: Params) -> anyhow::Result<impl IntoResp
     Ok(Response::builder().status(200).body(payload).build())
 }
 
-pub fn register_webhook(req: Request, _params: Params) -> anyhow::Result<impl IntoResponse> {
+pub async fn register_webhook(req: Request, _params: Params) -> anyhow::Result<impl IntoResponse> {
     let Ok(model) = serde_json::from_slice::<RegistrationRequestModel>(req.body()) else {
         bail!("Error while deserializing request payload");
     };
@@ -77,6 +83,37 @@ pub fn register_webhook(req: Request, _params: Params) -> anyhow::Result<impl In
         "INSERT INTO REGISTRATIONS (URL, EVENT, KEY) VALUES (?,?,?)",
         &parameters,
     )?;
-    let payload = serde_json::to_vec(&registration)?;
-    Ok(Response::builder().status(201).body(payload).build())
+    let verification_payload = serde_json::to_vec(&VerificationPayload {
+        key_data: registration.signing_key.clone(),
+    })?;
+    let verification_request = Request::builder()
+        .method(http::Method::Post)
+        .uri(create_handshake_url(registration.url.clone()))
+        .header("Content-Type", "application/json")
+        .body(verification_payload)
+        .build();
+    let verification_response: Response = http::send(verification_request).await?;
+    match verification_response.status() {
+        200 => {
+            let payload = serde_json::to_vec(&registration)?;
+            Ok(Response::builder().status(201).body(payload).build())
+        }
+        _ => {
+            println!(
+                "Received {} from webhook consumer",
+                verification_response.status()
+            );
+            Ok(Response::builder().status(500).body(()).build())
+        }
+    }
+}
+
+pub fn delete_all_registrations(_: Request, _: Params) -> anyhow::Result<impl IntoResponse> {
+    let con = Connection::open_default()?;
+    con.execute("DELETE FROM REGISTRATIONS", &[])?;
+    Ok(Response::builder().status(200).body(()).build())
+}
+
+fn create_handshake_url(url: String) -> String {
+    format!("{}?handshake=true", url)
 }

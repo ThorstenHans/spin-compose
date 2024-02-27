@@ -1,4 +1,4 @@
-use registrations::{dump_registrations, register_webhook, Registration};
+use registrations::{delete_all_registrations, dump_registrations, register_webhook, Registration};
 use serde::Serialize;
 use spin_sdk::http::{IntoResponse, Method, Params, Request, Response, Router};
 use spin_sdk::http_component;
@@ -19,7 +19,8 @@ pub struct SamplePayload {
 #[http_component]
 fn handle_simple_http_api(req: Request) -> anyhow::Result<impl IntoResponse> {
     let mut router = Router::default();
-    router.post("/register", register_webhook);
+    router.post_async("/register", register_webhook);
+    router.delete("/registrations", delete_all_registrations);
     router.post_async("/fire", demonstrate_firing);
     router.get("/registrations", dump_registrations);
     Ok(router.handle(req))
