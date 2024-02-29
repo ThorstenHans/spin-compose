@@ -1,8 +1,16 @@
-from spin_http import Response
+from spin_sdk import http
+from spin_sdk.http import Request, Response
 
+from consumer.imports.verify import verify
 
-def handle_request(request):
-
-    return Response(200,
-                    {"content-type": "text/plain"},
-                    bytes(f"Hello from the Python SDK", "utf-8"))
+class IncomingHandler(http.IncomingHandler):
+    def handle_request(self, request: Request) -> Response:
+        #valid = verify("", "", "")
+        #print(valid)
+        res = verify(bytes("", 'utf-8'), bytes("", 'utf-8'), bytes("", 'utf-8'))
+        print(res)
+        return Response(
+            200,
+            {"content-type": "text/plain"},
+            bytes("Hello from Python!", "utf-8")
+        )

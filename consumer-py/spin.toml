@@ -7,7 +7,7 @@ version = "0.1.0"
 
 [[component]]
 id = "consumer-py"
-source = "app.wasm"
+source = "foo.wasm"
 [component.trigger]
 route = "/..."
 [component.build]

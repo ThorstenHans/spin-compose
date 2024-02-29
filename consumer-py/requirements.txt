@@ -1,1 +1,5 @@
 componentize-py==0.11.2
+mypy==1.8.0
+mypy-extensions==1.0.0
+spin-sdk==2.0.0
+typing_extensions==4.10.0
