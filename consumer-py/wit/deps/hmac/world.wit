@@ -1,6 +1,7 @@
 package fermyon:hmac@0.1.0;
 
 world signing {
+    export types;
     export sign;
     export verify;
 }
@@ -16,6 +17,3 @@ interface sign {
 interface verify {
     verify: func(data: list<u8>, keyvalue: list<u8>, tag: list<u8>) -> bool;
 }
-
-
-
