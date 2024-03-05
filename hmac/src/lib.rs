@@ -1,7 +1,4 @@
-use bindings::{
-    exports::fermyon::hmac::{sign, verify},
-    fermyon::hmac::types::Error,
-};
+use bindings::exports::fermyon::hmac::{sign, types::Error, verify};
 use data_encoding::HEXUPPER;
 use ring::hmac;
 use wit_bindgen::rt::vec::Vec;
